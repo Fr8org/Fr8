@@ -185,7 +185,7 @@ namespace TerminalBase.BaseClasses
                 return;
             }
 
-            ActivityUI.SyncWith(configurationControls);
+            ActivityUI.SyncWith(configurationControls,true);
 
             if (ActivityUI.Controls != null)
             {

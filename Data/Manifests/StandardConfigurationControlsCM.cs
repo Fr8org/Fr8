@@ -187,7 +187,7 @@ namespace Fr8Data.Manifests
             }
         }
         
-        public void SyncWith(StandardConfigurationControlsCM configurationControls)
+        public void SyncWith(StandardConfigurationControlsCM configurationControls, bool addUnprocessedControls = false)
         {
             var targetNamedControls = EnumerateControlsDefinitions();
             foreach (var targetControl in targetNamedControls)
@@ -200,6 +200,18 @@ namespace Fr8Data.Manifests
                 }
 
                 ClonePrimitiveProperties(targetControl, source);
+            }
+
+            if (addUnprocessedControls)
+            {
+                // Add all controls from configurationControls which we don't have in Controls collection
+                foreach (var sourceControl in configurationControls.Controls)
+                {
+                    if (!string.IsNullOrEmpty(sourceControl.Name) && targetNamedControls.FirstOrDefault(x => x.Name == sourceControl.Name) == null)
+                    {
+                        Controls.Add(sourceControl);
+                    }
+                }
             }
         }
         // Sync controls properties from configuration controls crate with the current instance of StandardConfigurationControlsCM
